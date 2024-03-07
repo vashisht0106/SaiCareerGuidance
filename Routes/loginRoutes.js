@@ -91,9 +91,7 @@ router.post('/login', async (req, res) => {
  res.status(200).cookie('token', token, {
     expires:new Date(Date.now()+24*60*60*1000),
    httpOnly:true,
-   domain:'localhost',
-   path:'/'
-}
+   }
  ).json({ success: true, user, token })
   } catch (error) {
       res.status(500).json({ message: error.message });
