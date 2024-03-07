@@ -92,7 +92,7 @@ router.post('/login', async (req, res) => {
     expires:new Date(Date.now()+24*60*60*1000),
    httpOnly:true,
    domain:'localhost',
-   path:'/api/login'
+   path:'/'
 }
  ).json({ success: true, user, token })
   } catch (error) {
