@@ -13,7 +13,7 @@ const dotenv=require('dotenv')
 const app = express();
 //const router = express.Router();
 dotenv.config()
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 //app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.json());

@@ -90,7 +90,7 @@ router.post('/login', async (req, res) => {
      
  res.status(200).cookie('token', token, {
     expires:new Date(Date.now()+24*60*60*1000),
-  
+   httpOnly:true,
    domain:'.immortalfutureinfotech.com',
    path:'/',
    secure:true
@@ -100,6 +100,14 @@ router.post('/login', async (req, res) => {
       res.status(500).json({ message: error.message });
   }
 });
+
+
+
+
+
+
+
+
 
 module.exports = router;
 
