@@ -23,16 +23,16 @@ router.get('/read', async (req, res) => {
 // CREATE - Endpoint to create a new user
 router.post('/create/register', async (req, res) => {
     try {
-        const { university, course, name, adharNumber, gender, date,  marksheetNumber, contact, email, state, district, address } = req.body;
+        const { university, course, name, adharNumber, gender, date,  marksheetNumber, contact, email, state, district, address ,qualification,caste,fcontact} = req.body;
 
         // Checking if all fields are provided
-        if (!university || !course || !name || !adharNumber || !gender || !date  || !marksheetNumber || !contact || !email || !state || !district || !address) {
+        if (!(university &&course &&name &&adharNumber &&gender &&date  &&marksheetNumber &&contact &&email &&state &&district &&address && fcontact && qualification && caste)) {
             res.status(400).json({ success: false, error: "Incomplete Details!" });
             return;
         }
 
         // Creating a new user
-        const newUser = new User({ university, course, name, adharNumber, gender, date, marksheetNumber, contact, email, state, district, address });
+        const newUser = new User({ university, course, name, adharNumber, gender, date, marksheetNumber, contact, email, state, district, address,qualification,fcontact,caste });
         const savedUser = await newUser.save();
 
         // Counting total number of users

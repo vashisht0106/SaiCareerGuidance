@@ -18,6 +18,9 @@ const userSchema = new mongoose.Schema({
     state: String,
     district: String,
     address: String,
+    caste:String,
+    qualification:String,
+    fcontact:Number,
 
     count: { type: Number, default: 0 }
 });
