@@ -9,13 +9,13 @@ const courseRoutes = require('./Routes/courseRoutes')
 const enquiryRoutes = require('./Routes/enquiryRoutes.js')
 const cookieParser = require('cookie-parser')
 const dotenv=require('dotenv')
-
+const path=require('path')
 const app = express();
 //const router = express.Router();
 dotenv.config()
+app.use(cookieParser());
 app.use(bodyParser.json())
 //app.use(bodyParser.json());
-app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
   origin: true,  // Allow requests from any origin
@@ -24,19 +24,28 @@ app.use(cors({
 }));
 
 
-app.use((req, res, next) => {
-  // Set the Access-Control-Allow-Origin header to allow requests from any origin
-  res.header('Access-Control-Allow-Origin', '*');
-  // Set the Access-Control-Allow-Methods header to allow the HTTP methods specified
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  // Set the Access-Control-Allow-Headers header to allow the headers specified
-  res.header('Access-Control-Allow-Headers', 'Origin ,X-Requested-With,Content-Type, Accept');
-  // Call next middleware
+
+
+
+//app.use((req, res, next) => {
+//  // Set the Access-Control-Allow-Origin header to allow requests from any origin
+//  res.header('Access-Control-Allow-Origin', '*');
+//  // Set the Access-Control-Allow-Methods header to allow the HTTP methods specified
+//  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//  // Set the Access-Control-Allow-Headers header to allow the headers specified
+//  res.header('Access-Control-Allow-Headers', 'Origin ,X-Requested-With,Content-Type, Accept');
+//  // Call next middleware
+//  res.header('Access-Control-Allow-Credentials', true);
+//  next();
+//});
+
+app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
   next();
 });
-
-
 
 app.use('/api', loginRoutes);
 app.use('/api', userRoutes);

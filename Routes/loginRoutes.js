@@ -89,14 +89,20 @@ router.post('/login', async (req, res) => {
 
      
  res.status(200).cookie('token', token, {
-    expires:new Date(Date.now()+24*60*60*1000),
    httpOnly:true,
-   domain:'.immortalfutureinfotech.com',
+//   domain:'.immortalfutureinfotech.com',
    path:'/',
-   secure:true
+//   secure:true
+maxAge:1024*60*60*24*3,
+sameSite:'lax'
    }
- ).json({ success: true, user, token })
-  } catch (error) {
+ )
+ res.json({ success: true, user, token });
+  }
+  
+  
+  
+  catch (error) {
       res.status(500).json({ message: error.message });
   }
 });
@@ -116,6 +122,7 @@ module.exports = router;
 router.get('/loaduser',async(req,res)=>{
 
 const {token}=req.cookies;
+//const token1=req.header;
 console.log(token)
 if (!token) {
     return res.status(401).json({ success: false, message: "Unauthorized: Access Denied" });
@@ -151,12 +158,15 @@ jwt.verify(token, process.env.SECRET_KEY,async(err, decoded) => {
 
 
 
-router.post('/logout',(req,res)=>{
-
-try {
-    res.cookie('token','null',{expires:new Date(Date.now()),httpOnly:true})
-} catch (error) {
-    res.status(500).json({success:false,message:"internal server error"})
-}
-
-})
+router.post('/logout', (req, res) => {
+    try {
+      res.cookie('token', 'null', { expires: new Date(Date.now()), httpOnly: true });
+      // Set CORS headers
+    //  res.setHeader('Access-Control-Allow-Origin', '*');
+    //  res.setHeader('Access-Control-Allow-Credentials', 'true');
+      // Send response
+      res.status(200).json({ success: true, message: "Logout successful" });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Internal server error" });
+    }
+  });
