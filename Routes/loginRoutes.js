@@ -37,7 +37,7 @@ if(userF){
     const token = jwt.sign({id:user.id}, process.env.SECRET_KEY,options);
     console.log(token);
 
-    res.status(201).cookie('token', token, options,{ httpOnly:true,}).json({ success: true, user, token })
+    res.status(201).cookie('token', token, options,{ httpOnly:true,}).json({ success: true,message:"Login successfully completed", user, token })
 }
 } catch (error) {
    res.status(500).json({succes:false,message:"internal server error"}) 
@@ -66,20 +66,20 @@ router.post('/login', async (req, res) => {
       
       
       if (!(email&&password)) {
-          return res.status(400).json({ message: 'Please provide email and password' });
+          return res.status(200).json({success:false, message: 'Please provide email and password' });
       }
       
       const user = await UserModel.findOne({ email }).select("+password");
 
       if (!user) {
-          return res.status(404).json({ message: 'Invalid email or password' });
+          return res.status(200).json({success:false, message: 'Invalid email or password!' });
       }
 
 
  // Decrypt and compare passwords
  const decryptedPassword = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY).toString(CryptoJS.enc.Utf8);
  if (decryptedPassword !== password) {
-     return res.status(401).json({ success: false, message: 'Incorrect email or password' });
+     return res.status(200).json({ success: false, message: 'Incorrect email or password' });
  }
 
 
